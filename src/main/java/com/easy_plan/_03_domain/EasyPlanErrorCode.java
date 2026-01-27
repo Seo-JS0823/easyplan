@@ -1,8 +1,8 @@
-package com.easy_plan._05_shared.error;
+package com.easy_plan._03_domain;
 
 public interface EasyPlanErrorCode {
 	int getStatus();
 	String getMessage();
 	String getCode();
-	String getName();
+	String name();
 }

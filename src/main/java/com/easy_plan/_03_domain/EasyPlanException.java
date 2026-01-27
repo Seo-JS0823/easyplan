@@ -1,4 +1,4 @@
-package com.easy_plan._05_shared.error;
+package com.easy_plan._03_domain;
 
 public class EasyPlanException extends RuntimeException {
 	private final EasyPlanErrorCode error;
@@ -16,5 +16,4 @@ public class EasyPlanException extends RuntimeException {
 	public EasyPlanErrorCode getError() {
 		return error;
 	}
-	
 }
