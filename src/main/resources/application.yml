@@ -1,0 +1,49 @@
+server:
+  forward-headers-strategy: native
+  port: ${SERVER_PORT}
+  ssl:
+    bundle: "local-cert"
+    enabled: true
+
+spring:
+  application:
+    name: easy-plan-0.1.0
+  config:
+    import:
+     - optional:file:.env[.properties]
+  thymeleaf:
+    cache: false
+    prefix: classpath:templates/
+    suffix: .html
+    mode: HTML
+  datasource:
+    url: ${JDBC_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${JDBC_USER}
+    password: ${JDBC_PASS}
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        '[format_sql]': true
+        '[show_sql]': true
+  ssl:
+    bundle:
+      pem:
+        local-cert:
+          keystore:
+            certificate: ${SSL_CTF}
+            private-key: ${SSL_KEY}
+
+jwt:
+  secret: ${EASY_PLAN_SECRET_KEY}
+  
+logging:
+  level:
+    org:
+      springframewokr:
+        security: DEBUG
+        cache: trace
