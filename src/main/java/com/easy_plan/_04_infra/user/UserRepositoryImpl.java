@@ -3,7 +3,7 @@ package com.easy_plan._04_infra.user;
 import java.time.Instant;
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -28,16 +28,29 @@ public class UserRepositoryImpl implements UserRepository {
 	
 	@Override
 	public boolean existsByEmail(Email email) {
-		return userRepo.existsByEmail(email.getValue());
+		boolean exists = userRepo.existsByEmail(email.getValue());
+		if(exists) {
+			throw new UserException(UserErrorCode.ALREADY_EMAIL);
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean existsByNickname(Nickname nickname) {
-		return userRepo.existsByNickname(nickname.getValue());
+		boolean exists = userRepo.existsByNickname(nickname.getValue());
+		if(exists) {
+			throw new UserException(UserErrorCode.ALREADY_NICKNAME);
+		}
+		
+		return true;
 	}
 
 	@Override
 	public User save(User user) {
+		existsByEmail(user.getEmail());
+		existsByNickname(user.getNickname());
+		
 		Instant now = clock.now();
 		user.encodePassword(passwordEncoder.encode(user.getPassword().getValue()));
 		user.createdAt(now);
@@ -47,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
 		
 		try {
 			saved = userRepo.save(entity);
-		} catch (DataIntegrityViolationException e) {
+		} catch (Exception e) {
 			// DataIntegrityViolationException
 			// Unique, Private Key, 중복 불가 제약, 알 수 없는 에러 등에 걸리면 UserException으로 예왜 매핑
 			throw new UserException(UserErrorCode.SIGNUP_ERROR, e);
@@ -74,11 +87,18 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public boolean passwordMatch(User user) {
-		String inputPassword = user.getPassword().getValue();
-		String encodedPassword = userRepo.encodedPassword(user.getEmail().getValue());
+	@Nullable
+	public User passwordMatch(User user) {
+		UserEntity entity = userRepo.findByEmail(user.getEmail().getValue())
+				.orElseThrow(() -> new UserException(UserErrorCode.LOGIN_NOT_MATCH));
 		
-		return passwordEncoder.matches(inputPassword, encodedPassword);
+		String inputPassword = user.getPassword().getValue();
+		String encodedPassword = entity.getPassword();
+		
+		if(passwordEncoder.matches(inputPassword, encodedPassword)) {
+			return entity.toDomain();
+		}
+		return null;
 	}
 	
 }

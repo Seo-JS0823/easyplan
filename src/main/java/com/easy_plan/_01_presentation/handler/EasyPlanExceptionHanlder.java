@@ -1,7 +1,6 @@
 package com.easy_plan._01_presentation.handler;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.easy_plan._03_domain.EasyPlanErrorCode;
 import com.easy_plan._03_domain.EasyPlanException;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -21,8 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class EasyPlanExceptionHanlder {
+	
 	@ExceptionHandler(EasyPlanException.class)
-	protected ResponseEntity<?> handleEasyPlanException(EasyPlanException e) {
+	protected ResponseEntity<?> handleEasyPlanException(EasyPlanException e, HttpServletRequest request, HttpServletResponse response) {
 		EasyPlanErrorCode error = e.getError();
 		
 		String originalMessage = error.getMessage();

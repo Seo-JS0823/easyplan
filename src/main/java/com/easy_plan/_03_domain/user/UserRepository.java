@@ -20,5 +20,5 @@ public interface UserRepository {
 	
 	Optional<User> findByUserId(Long userId);
 	
-	boolean passwordMatch(User user);
+	User passwordMatch(User user);
 }

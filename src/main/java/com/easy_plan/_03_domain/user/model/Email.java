@@ -18,7 +18,7 @@ public class Email {
 	private final String value;
 	
 	public Email(String value) {
-		validate(value);
+		//validate(value);
 		this.value = value;
 	}
 	

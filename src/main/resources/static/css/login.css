@@ -1,0 +1,174 @@
+@font-face {
+	font-family: 'Cafe24Decobox';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Decobox.woff2') format('woff2');
+	font-weight: normal;
+	font-display: swap;
+}
+
+:root {
+	--font-header: 'Montserrat', Arial, sans-serif;
+	--font-content: 'Noto Sans KR', Arial, sans-serif;
+	--font-logo: 'Cafe24Decobox';
+	
+	--color-black-bg: #121212;
+	
+	--color-border-dark: 1px solid #333;
+	--color-border-light: 1px solid #ccc;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-content);
+  font-weight: 500;
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------------------------------ */
+/* ------------------------------ 회원가입 영역 CSS ----------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+input[type=text], input[type=password] {
+	border: var(--color-border-light);
+	outline: none;
+}
+
+button {
+	outline: none;
+	border: var(--color-border-light);
+	cursor: pointer;
+}
+
+.signup-container {
+	position: relative;
+	background: white;
+	width: 1000px;
+	height: 600px;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	box-shadow: 0 0 10px #ccc;
+	border-radius: 20px;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	background: #eee;
+	padding: 1rem;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	z-index: 100;
+}
+
+#wrapper-toggle {
+	position: absolute;
+	width: 5rem;
+	height: 5rem;
+	background: lightgreen;
+	top: 30px;
+	left: 94.5%;
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+	text-align: center;
+	cursor: pointer;
+	color: white;
+	z-index: 99;
+	transition: transform 0.5s ease-in-out;
+}
+#wrapper-toggle:hover {
+	transform: translateX(10px);
+}
+
+.wrapper-header {
+	text-align: center;
+}
+
+.wrapper-header p {
+	margin-top: 5px;
+	font-size: 0.7rem;
+	color: gray;
+}
+
+.wrapper-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.wrapper-group label {
+	margin-left: 3px;
+}
+
+.wrapper-group input[type=text],
+.wrapper-group input[type=password] {
+	width: 100%;
+	margin-top: 5px;
+	height: 3rem;
+	padding-left: 10px;
+	font-size: 1.2rem;
+	border-radius: 10px;
+}
+
+.wrapper-group input[type=text]:focus,
+.wrapper-group input[type=password]:focus {
+	border: 2px solid lightblue;
+}
+
+.gender-options {
+	margin-top: 5px;
+	width: 100%;
+	height: 2rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 5px;
+}
+
+.gender-option {
+	width: 100%;
+	border-radius: 10px;
+	
+}
+
+.gender-option:hover {
+	border: 2px solid lightgreen;
+}
+
+.gender-option.checked {
+	background: lightgreen;
+	color: white;
+	border: none;
+}
+
+.wrapper-btn {
+	margin-top: auto;
+	height: 3rem;
+	color: white;
+	background: lightgreen;
+	border: none;
+	font-size: 1.2rem;
+	letter-spacing: 2px;
+	border-radius: 10px;
+}
+
+.wrapper-btn:hover {
+	background: #1CA62F;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+/* ------------------------------ 사이트 소개 영역 ------------------------------------ */
+/* ------------------------------------------------------------------------------------ */
+.home-description {
+	padding: 1rem;
+}

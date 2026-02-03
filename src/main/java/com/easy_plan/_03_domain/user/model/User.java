@@ -25,6 +25,8 @@ public class User {
 	
 	private Instant updatedAt;
 	
+	private boolean deleted;
+	
 	public void encodePassword(String encodedPassword) {
 		this.password = new Password(encodedPassword);
 	}

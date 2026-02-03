@@ -59,6 +59,9 @@ public class UserEntity {
 	@Column(name = "UPDATED_AT", nullable = false)
 	private Instant updatedAt;
 	
+	@Column(name = "DELETED", nullable = false)
+	private Boolean deleted;
+	
 	public static UserEntity toEntity(User user) {
 		return UserEntity.builder()
 				.id(user.getId())
@@ -69,6 +72,7 @@ public class UserEntity {
 				.role(user.getRole())
 				.createdAt(user.getCreatedAt())
 				.updatedAt(user.getUpdatedAt())
+				.deleted(user.isDeleted())
 				.build();
 	}
 	
@@ -82,6 +86,7 @@ public class UserEntity {
 				.role(role)
 				.createdAt(createdAt)
 				.updatedAt(updatedAt)
+				.deleted(deleted)
 				.build();
 	}
 }

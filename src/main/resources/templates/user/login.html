@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+	<script th:src="@{/js/easyplan-util-script.js}"></script>
+	<title>HTML Thymeleaf Template</title>
+</head>
+<body>
+<script th:src="@{/js/user/component/loginComponent.js}"></script>
+	<div class="signup-container">
+		<div class="home-description">
+			<h2>description</h2>
+		</div>
+		
+		<div id="wrapper-toggle" data-state='Login'>로그인</div>
+		<div class="wrapper">
+			<div class="wrapper-header">
+				<h2>Easy Plan sign up</h2>
+				<p>쉽고 간편한 가계부를 이용하세요.</p>
+			</div>
+			
+			<div class="wrapper-group">
+				<label for="signup-email">이메일</label>
+				<input type="text" id="signup-email" placeholder="email@example.com">
+			</div>
+			
+			<div class="wrapper-group">
+				<label for="signup-nickname">닉네임</label>
+				<input type="text" id="signup-nickname" placeholder="Nickname">
+			</div>
+			
+			<div class="wrapper-group">
+				<label for="signup-password">비밀번호</label>
+				<input type="password" id="signup-password" placeholder="Password">
+			</div>
+			
+			<div class="wrapper-group">
+				<label>성별</label>
+				<div class="gender-options">
+					<button class="gender-option checked" data-gender="MALE">남자</button>
+					<button class="gender-option" data-gender="FEMALE">여자</button>
+					<button class="gender-option" data-gender="OTHER">비공개</button>
+				</div>
+			</div>
+			
+			<button id="signup-run" class="wrapper-btn">회원가입</button>
+		</div>
+	</div>
+<script th:src="@{/js/user/login.js}"></script>
+</body>
+</html>
