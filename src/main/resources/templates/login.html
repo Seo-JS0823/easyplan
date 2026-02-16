@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Easy Plan</title>
+</head>
+<body>
+	<h1>회원가입</h1>
+	<input type="text" id="join-email" placeholder="이메일">
+	<input type="password" id="join-password" placeholder="패스워드">
+	<input type="text" id="join-nickname" placeholder="닉네임">
+	<label for="join-gender-male"><input type="radio" id="join-gender-male" name="gender" value="MALE"> 남자</label>
+	<label for="join-gender-female"><input type="radio" id="join-gender-female" name="gender" value="FEMALE"> 여자</label>
+	<label for="join-gender-none"><input type="radio" id="join-gender-none" name="gender" value="NONE"> 비공개</label>
+	<button id="join">회원가입</button>
+	<hr>
+	
+	<h1>로그인</h1>
+	<input type="text" id="login-email" placeholder="이메일">
+	<input type="password" id="login-password" placeholder="패스워드">
+	<button id="login">로그인</button>
+	<hr>
+	
+	
+<script>
+	function csrfToken() {
+		if(document.cookie) {
+			const cookieValue = `; ${document.cookie}`;
+			const parts = cookieValue.split(`; XSRF-TOKEN=`);
+			
+			if(parts.length === 2) {
+				return parts.pop().split(';').shift();
+			}
+		}
+		return '';
+	}
+
+	document.getElementById('login').addEventListener('click', () => {
+		const email = document.getElementById('login-email').value;
+		const password = document.getElementById('login-password').value;
+		
+		const user = {
+			email: email,
+			password: password
+		}
+		
+		fetch('/api/auth/login', {
+			credentials: 'include',
+			method: 'POST',
+			headers: {
+				'Content-Type':'application/json',
+				'X-XSRF-TOKEN': csrfToken()
+			},
+			body: JSON.stringify(user)
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data);
+			if(data.message === 'EXPIRED') {
+				fetch('/api/auth/rotation', {
+					credentials: 'include',
+					method: 'POST',
+					headers: {
+						'X-XSRF-TOKEN': csrfToken()
+					}
+				})
+				.then(res => {
+					if(res.ok) {
+						alert('발급완료');
+						fetch('/api/auth/login', {
+							credentials: 'include',
+							method: 'POST',
+							headers: {
+								'Content-Type':'application/json',
+								'X-XSRF-TOKEN': csrfToken()
+							},
+							body: JSON.stringify(user)
+						})
+						.then(res => res.json())
+						.then(data => console.log(data))
+					}
+				})
+			}
+		})
+	})
+	
+	document.getElementById('join').addEventListener('click', () => {
+		const email = document.getElementById('join-email').value;
+		const password = document.getElementById('join-password').value;
+		const nickname = document.getElementById('join-nickname').value;
+		const gender = document.querySelector('input[name=gender]:checked').value;
+		
+		const user = {
+			email: email,
+			password: password,
+			nickname: nickname,
+			gender: gender
+		}
+		
+		fetch('/api/auth/join', {
+			method: 'POST',
+			headers: {
+				'Content-Type':'application/json',
+				'X-XSRF-TOKEN': csrfToken()
+			},
+			body: JSON.stringify(user)
+		})
+		.then(res => res.json())
+		.then(data => console.log(data));
+	})
+</script>
+</body>
+</html>
