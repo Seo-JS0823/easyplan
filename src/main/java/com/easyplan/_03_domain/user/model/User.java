@@ -59,7 +59,7 @@ public class User {
 	// ------------------ //
 	
 	public void updateNickname(Nickname newNickname, Instant now) {
-		assertActive();
+		validateActive();
 		
 		if(this.nickname.equals(newNickname)) return;
 		
@@ -69,7 +69,7 @@ public class User {
 	}
 	
 	public void updatePasswordHash(PasswordHash newPasswordHash, Instant now) {
-		assertActive();
+		validateActive();
 		
 		this.passwordHash = Require.require(newPasswordHash, "newPasswordHash");
 		
@@ -77,7 +77,7 @@ public class User {
 	}
 	
 	public void changeRole(Role newRole, Instant now) {
-		assertActive();
+		validateActive();
 		
 		if(this.role.equals(newRole)) return;
 		
@@ -106,7 +106,7 @@ public class User {
 	// ----- GUARDS ----- //
 	// ------------------ //
 	
-	private void assertActive() {
+	public void validateActive() {
 		if(this.status != UserStatus.ACTIVE) {
 			throw new UserException(UserError.USER_DISABLED);
 		}
@@ -115,5 +115,4 @@ public class User {
 	private void onUpdate(Instant now) {
 		this.updatedAt = now;
 	}
-	
 }

@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 
 import com.easyplan._03_domain.user.model.Password;
 import com.easyplan._03_domain.user.model.PasswordHash;
-import com.easyplan._03_domain.user.repository.PasswordRepository;
+import com.easyplan._03_domain.user.service.PasswordService;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class PasswordManager implements PasswordRepository {
+public class PasswordManager implements PasswordService {
 
 	private final PasswordEncoder passwordEncoder;
 	

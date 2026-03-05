@@ -92,13 +92,37 @@ public class UserEntity {
 		);
 	}
 	
-	public void apply(User user) {
-		this.nickname = user.getNickname().getValue();
-		this.passwordHash = user.getPasswordHash().getValue();
-		this.status = user.getStatus();
-		this.role = user.getRole();
-		this.updatedAt = user.getUpdatedAt();
-		this.gender = user.getGender();
+	public void changeNickname(Nickname nickname, Instant updatedAt) {
+		this.nickname = nickname.getValue();
+		changeUpdatedAt(updatedAt);
+	}
+	
+	public void changePasswordHash(PasswordHash passwordHash, Instant updatedAt) {
+		this.passwordHash = passwordHash.getValue();
+		changeUpdatedAt(updatedAt);
+	}
+	
+	public void changeStatus(UserStatus status, Instant updatedAt) {
+		if(this.status == status) return;
+		
+		this.status = status;
+		changeUpdatedAt(updatedAt);
+	}
+	
+	public void changeRole(Role role, Instant updatedAt) {
+		if(this.role == role) return;
+		
+		this.role = role;
+		changeUpdatedAt(updatedAt);
+	}
+	
+	public void changeGender(Gender gender, Instant updatedAt) {
+		this.gender = gender;
+		changeUpdatedAt(updatedAt);
+	}
+	
+	public void changeUpdatedAt(Instant updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 }
