@@ -1,0 +1,53 @@
+@import url('https://rsms.me/inter/inter.css');
+
+:root {
+	--font-content: 'Pretendard', 'IBM Plex sans KR', sans-serif;
+	--font-header: 'Inter', 'Poppins', 'Pretendard', sans-serif;
+	
+	--default-border: 1px solid #ccc;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-family: var(--font-content);
+	font-size: 12px;
+	scroll-behavior: smooth;
+	color: #333;
+}
+
+body {
+	width: 100%;
+	height: auto;
+	min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font: inherit;
+}
+
+input {
+	outline: none;
+	border: var(--default-border);
+	font: inherit;
+}
+
+button {
+	cursor: pointer;
+	outline: none;
+	border: var(--default-border);
+	font: inherit;
+}
+
+ul, ol {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #333;
+}
