@@ -1,6 +1,5 @@
 package com.easyplan._04_infra.persistence.orm.user;
 
-import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;

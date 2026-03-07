@@ -36,11 +36,11 @@ public class UserEntity {
 	@Column(name = "public_id", unique = true, nullable = false, updatable = false, length = 40)
 	private String publicId;
 	
-	@Column(name = "nickname", unique = true, nullable = false, length = 10)
-	private String nickname;
-	
 	@Column(name = "email", unique = true, nullable = false, updatable = false)
 	private String email;
+	
+	@Column(name = "nickname", unique = true, nullable = false, length = 10)
+	private String nickname;
 	
 	@Column(name = "password_hash", unique = true, nullable = false)
 	private String passwordHash;
@@ -68,6 +68,7 @@ public class UserEntity {
 		entity.id = user.getId();
 		entity.publicId = user.getPublicId().getValue();
 		entity.email = user.getEmail().getValue();
+		entity.nickname = user.getNickname().getValue();
 		entity.passwordHash = user.getPasswordHash().getValue();
 		entity.status = user.getStatus();
 		entity.gender = user.getGender();

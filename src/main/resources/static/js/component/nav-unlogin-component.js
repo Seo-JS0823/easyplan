@@ -15,7 +15,7 @@ const USER_MODAL = {
 				.on(prop.event, prop.key)
 			})
 			
-			if(prop.user) {
+			if(prop.find) {
 				ctrl.child('a', a => {
 					a.attribute('href', '#')
 					.innerText('아이디 및 비밀번호 찾기')
@@ -136,12 +136,21 @@ function loginModalComponent() {
 				placeholder: [ '사용자 이메일', '사용자 비밀번호' ],
 			}))
 			.use(USER_MODAL.Control({
-				id: 'login-run', event: 'click', key: 'LOGIN', text: '로그인', user: true
+				id: 'login-run', event: 'click', key: 'LOGIN', text: '로그인', find: true
 			}))
 		})
 	)
-	.on('LOGIN', () => {
-		alert('로그인')
+	.on('LOGIN', async () => {
+		const email = $.id('login-email').build().value;
+		const password = $.id('login-password').build().value;
+		
+		const user = {
+			email: email,
+			password: password
+		}
+		
+		const res = await new FETCH('/api/auth/login').post().credentials().body(user).send();
+		
 	})
 	.build();
 }
@@ -174,12 +183,27 @@ function signupModalComponent() {
 				}
 			}))
 			.use(USER_MODAL.Control({
-				id: 'signup-run', event: 'click', key: 'SIGNUP', text: '회원가입', user: false
+				id: 'signup-run', event: 'click', key: 'SIGNUP', text: '회원가입', find: false
 			}))
 		})
 	)
-	.on('SIGNUP', () => {
-		alert('회원가입')
+	.on('SIGNUP', async () => {
+		const email = $.id('signup-email').build().value;
+		const password = $.id('signup-password').build().value;
+		const nickname = $.id('signup-nickname').build().value;
+		const gender = document.querySelector('[name=gender]:checked').value;
+		
+		const user = {
+			email: email,
+			password: password,
+			nickname: nickname,
+			gender: gender
+		}
+		
+		const res = await new FETCH('/api/auth/signup').post().body(user).send();
+		
+		console.log(res);
+		
 	})
 	.build();
 }

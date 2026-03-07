@@ -36,6 +36,9 @@ spring:
       
 jwt:
   secret: ${JWT_SECRET}
+  times:
+    access: 1800000
+    refresh: 604800000
   
 logging:
   level:

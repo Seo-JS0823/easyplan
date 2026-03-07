@@ -109,7 +109,50 @@ const UI = {
 	}
 }
 
-
+class FETCH {
+	constructor(url) {
+		this.url = url;
+		this.options = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-XSRF-TOKEN': csrfToken()
+			}
+		}
+	}
+	
+	post() { this.options.method = 'POST'; return this; }
+	
+	put() { this.options.method = 'PUT'; return this; }
+	
+	patch() { this.options.method = 'PATCH'; return this; }
+	
+	delete() { this.options.method = 'DELETE'; return this; }
+	
+	credentials() { this.options['credentials'] = 'include'; return this; }
+	
+	addHeader(prop, value) {
+		this.options.headers[prop] = value;
+		return this;
+	}
+	
+	body(json) {
+		if(!json) {
+			console.error(`FETCH: DEBUG: (${json}) Parameter Not Found`)
+			return {};
+		}
+		this.options['body'] = JSON.stringify(json);
+		return this;
+	}
+	
+	async send() {
+		let res = await fetch(this.url, this.options);
+		
+		const data = await res.json();
+		
+		return data;
+	}
+}
 
 
 
