@@ -5,6 +5,7 @@ import java.time.Instant;
 import com.easyplan._03_domain.auth.model.Auth;
 import com.easyplan._03_domain.auth.model.AuthDomainFactory;
 import com.easyplan._03_domain.auth.model.RefreshTokenHash;
+import com.easyplan._03_domain.auth.model.Subject;
 import com.easyplan._03_domain.auth.model.TokenExpiration;
 
 import jakarta.persistence.Column;
@@ -32,6 +33,9 @@ public class AuthEntity {
 	@Column(name = "user_id", unique = true, updatable = false, nullable = false)
 	private Long userId;
 	
+	@Column(name = "subject", unique = true, updatable = false, nullable = false)
+	private String subject;
+	
 	@Column(name = "token_hash", unique = true, nullable = false)
 	private String tokenHash;
 	
@@ -48,6 +52,7 @@ public class AuthEntity {
 		return new AuthEntity(
 				auth.getId(),
 				auth.getUserId(),
+				auth.getSubject().getValue(),
 				auth.getRefreshTokenHash().getValue(),
 				auth.getExpiresAt().getValue(),
 				auth.getCreatedAt(),
@@ -59,6 +64,7 @@ public class AuthEntity {
 		return AuthDomainFactory.read(
 				id,
 				userId,
+				Subject.of(subject),
 				RefreshTokenHash.of(tokenHash),
 				TokenExpiration.of(expiresAt),
 				createdAt,

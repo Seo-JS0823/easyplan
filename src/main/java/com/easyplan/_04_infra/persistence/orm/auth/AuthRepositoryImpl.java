@@ -28,6 +28,17 @@ public class AuthRepositoryImpl implements AuthRepository {
 	}
 
 	@Override
+	public Optional<Auth> findByTokenHash(String tokenHash) {
+		return authJpa.findByTokenHash(tokenHash)
+				.map(AuthEntity::toDomain);
+	}
+
+	@Override
+	public Optional<Auth> findBySubject(String subject) {
+		return authJpa.findBySubject(subject)
+				.map(AuthEntity::toDomain);
+	}	
+	@Override
 	public String getTokenHash(Long userId) {
 		return authJpa.getTokenHash(userId);
 	}
@@ -51,8 +62,5 @@ public class AuthRepositoryImpl implements AuthRepository {
 		return authJpa.findById(auth.getId())
 				.orElseThrow(() -> new AuthException(AuthDataAccessError.INVALID_AUTH_INFO));
 	}
-	
-	
-	
-	
+
 }

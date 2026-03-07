@@ -10,6 +10,8 @@ public class Auth {
 	
 	private final Long userId;
 	
+	private final Subject subject;
+	
 	private RefreshTokenHash refreshTokenHash;
 	
 	private TokenExpiration expiresAt;
@@ -18,12 +20,18 @@ public class Auth {
 	
 	private Instant updatedAt;
 	
-	Auth(Long id, Long userId, RefreshTokenHash refreshTokenHash, TokenExpiration expiresAt, Instant createdAt, Instant updatedAt) {
+	Auth(Long id, Long userId, Subject subject, RefreshTokenHash refreshTokenHash, TokenExpiration expiresAt, Instant createdAt, Instant updatedAt) {
 		this.id = id;
 		this.userId = userId;
+		this.subject = subject;
 		this.refreshTokenHash = refreshTokenHash;
 		this.expiresAt = expiresAt;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+	}
+	
+	public void updateTokenHash(RefreshTokenHash refreshTokenHash, Instant now) {
+		this.refreshTokenHash = refreshTokenHash;
+		this.updatedAt = now;
 	}
 }

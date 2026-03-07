@@ -149,8 +149,13 @@ function loginModalComponent() {
 			password: password
 		}
 		
-		const res = await new FETCH('/api/auth/login').post().credentials().body(user).send();
+		const res = await new FETCH('/api/auth/login').post().body(user).send();
 		
+		console.log(res);
+		
+		if(res.success === true) {
+			window.location.href = '/index';
+		}
 	})
 	.build();
 }

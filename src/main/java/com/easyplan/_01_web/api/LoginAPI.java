@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.easyplan._01_web.request.UserRequest;
 import com.easyplan._01_web.response.GlobalResponse;
+import com.easyplan._01_web.util.CookieName;
+import com.easyplan._01_web.util.CookieProvider;
 import com.easyplan._02_application.command.UserCommand;
+import com.easyplan._02_application.result.AuthResult;
 import com.easyplan._02_application.result.UserResult;
 import com.easyplan._02_application.service.AuthApplication;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,10 +24,22 @@ import lombok.RequiredArgsConstructor;
 public class LoginAPI {
 	private final AuthApplication authApp;
 	
+	private final CookieProvider cookie;
+	
 	@PostMapping("/login")
-	public ResponseEntity<GlobalResponse<Object>> login(@RequestBody UserRequest.Login login) {
+	public ResponseEntity<GlobalResponse<Object>> login(
+			@RequestBody UserRequest.Login login,
+			HttpServletResponse response
+	) {
+		
 		UserCommand.Login userCommand = login.toCommand();
-		return GlobalResponse.successEntity();
+		
+		AuthResult.Login result = authApp.login(userCommand);
+		
+		cookie.addCookie(CookieName.ACCESS, result.accessToken(), response);
+		cookie.addCookie(CookieName.REFRESH, result.refreshToken(), response);
+		
+		return GlobalResponse.successEntity(result.message());
 	}
 	
 	@PostMapping("/signup")

@@ -63,7 +63,7 @@ public class TokenServiceImpl implements TokenService {
 	}
 
 	@Override
-	public AccessToken createAccessToken(String publicId, String role) {
+	public AccessToken createAccessToken(Subject subject, String role) {
 		TokenId tokenId = TokenId.create();
 		
 		Date now = Date.from(clock.now());
@@ -71,7 +71,7 @@ public class TokenServiceImpl implements TokenService {
 		Date expiration = new Date(now.getTime() + ACCESS_TOKEN_VALIDITY);
 		
 		Claims claims = Jwts.claims()
-				.subject(publicId)
+				.subject(subject.getValue())
 				.add(JWT_JTI, tokenId.getValue())
 				.add(JWT_ROLE, role)
 				.issuedAt(now)
@@ -84,8 +84,9 @@ public class TokenServiceImpl implements TokenService {
 				.compact();
 		
 		TokenClaims tokenClaims = new TokenClaims(
-				Subject.of(publicId),
+				subject,
 				tokenId,
+				role,
 				TokenExpiration.of(expiration.toInstant())
 		);
 		
@@ -128,10 +129,11 @@ public class TokenServiceImpl implements TokenService {
 		Claims claims = parseClaims(accessToken);
 		
 		Subject subject = Subject.of(claims.getSubject());
-		TokenId tokenId = TokenId.of(claims.get("jti", String.class));
+		TokenId tokenId = TokenId.of(claims.get(JWT_JTI, String.class));
 		TokenExpiration expiresAt = TokenExpiration.of(claims.getExpiration().toInstant());
+		String role = claims.get(JWT_ROLE, String.class);
 		
-		return new TokenClaims(subject, tokenId, expiresAt);
+		return new TokenClaims(subject, tokenId, role, expiresAt);
 	}
 	
 	private Claims parseClaims(String accessToken) {

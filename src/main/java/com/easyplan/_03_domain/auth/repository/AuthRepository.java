@@ -9,6 +9,10 @@ public interface AuthRepository {
 	
 	Optional<Auth> findByUserId(Long userId);
 	
+	Optional<Auth> findBySubject(String subject);
+	
+	Optional<Auth> findByTokenHash(String tokenHash);
+	
 	String getTokenHash(Long userId);
 	
 	Auth save(Auth auth);

@@ -1,16 +1,18 @@
 package com.easyplan._03_domain.auth.repository;
 
-import java.time.Duration;
+import java.time.Instant;
 
 import com.easyplan._03_domain.auth.model.AccessToken;
 import com.easyplan._03_domain.auth.model.RefreshToken;
 
 public interface BlacklistRepository {
-	void addBlacklistRefreshToken(RefreshToken refreshToken, Duration ttl);
+	void addBlacklistRefreshToken(RefreshToken refreshToken, Instant now);
 	
-	boolean isBlacklistRefreshToken(RefreshToken refreshToken);
+	void addDefaultTtlBlacklistRefreshToken(String refreshToken);
 	
-	void addBlacklistAccessToken(AccessToken accessToken, Duration ttl);
+	boolean isBlacklistRefreshToken(String refreshToken);
 	
-	boolean isBlacklistAccessToken(AccessToken accessToken);
+	void addBlacklistAccessToken(AccessToken accessToken, Instant now);
+	
+	boolean isBlacklistAccessToken(String accessToken);
 }

@@ -10,4 +10,8 @@ public interface JpaAuthRepository extends JpaRepository<AuthEntity, Long> {
 	
 	@Query("select e from AuthEntity e where e.userId = :userId")
 	String getTokenHash(Long userId);
+	
+	Optional<AuthEntity> findByTokenHash(String tokenHash);
+
+	Optional<AuthEntity> findBySubject(String subject);
 }
