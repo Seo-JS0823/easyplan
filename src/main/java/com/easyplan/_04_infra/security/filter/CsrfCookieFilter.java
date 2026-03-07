@@ -1,4 +1,4 @@
-package com.easyplan._04_infra.security;
+package com.easyplan._04_infra.security.filter;
 
 import java.io.IOException;
 

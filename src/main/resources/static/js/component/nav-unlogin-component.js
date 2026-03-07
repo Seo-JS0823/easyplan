@@ -1,3 +1,45 @@
+const MESSAGE_MODAL = {
+	Header: (title) => (parent) => {
+		parent.child('div', header => {
+			header.className('message-header')
+				.child('h1', h1 => h1.innerText(title))
+		})
+	},
+	
+	Content: (message = {}) => (parent) => {
+		parent.child('div', content => {
+			content.className('message-content')
+				.child('p', p => p.innerText(`회원님의 아이디는 ${message.email} 입니다.`))
+		})
+	},
+	
+	NextFunction: (message) => (parent) => {
+		parent.child('div', next => {
+			next.className('message-nextFunc')
+				.child('p', p => p.innerText(message))
+				.on('click', 'LOGIN_MODAL')
+		})
+	}
+}
+
+function messageModalOpen(message, json, nextFuncMessage) {
+	return UI.createFragment()
+	.append(
+		UI.createDocument('div', parent => {
+			parent.className('message-modal')
+			.use(MESSAGE_MODAL.Header(message))
+			.use(MESSAGE_MODAL.Content(json))
+			.use(MESSAGE_MODAL.NextFunction(nextFuncMessage))
+		})
+	)
+	.on('LOGIN_MODAL', () => {
+		const modal = $.selector('.user-modal-overlay');
+	
+		modal.replaceChildren(loginModalComponent())
+	})
+	.build()
+}
+
 const USER_MODAL = {
 	Header: (title) => (parent) => {
 		parent.child('div', header => {
@@ -207,8 +249,11 @@ function signupModalComponent() {
 		
 		const res = await new FETCH('/api/auth/signup').post().body(user).send();
 		
-		console.log(res);
-		
+		if(res.success == true) {
+			const overlay = $.id('modal-overlay').build();
+			
+			overlay.replaceChildren(messageModalOpen(res.message, res.data, '로그인 하기'));
+		}
 	})
 	.build();
 }
