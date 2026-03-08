@@ -10,6 +10,7 @@
 	justify-content: space-between;
 	padding: 0 20rem;
 	white-space: nowrap;
+	z-index: 999;
 }
 
 .nav-control {
@@ -30,7 +31,7 @@
 
 .nav-user-control {
 	position: relative;
-	width: 6rem;
+	width: auto;
 	height: 100%;
 	display: flex;
 	align-items: center;
@@ -54,8 +55,8 @@
 .user-control-item {
 	position: absolute;
 	top: 90%;
-	right: -50%;
-	width: 200%;
+	right: 0;
+	width: 12rem;
 	height: auto;
 	background: white;
 	border: var(--default-border);
@@ -260,11 +261,8 @@
 }
 
 #theme {
-	position: absolute;
 	width: 6rem;
 	height: 3rem;
-	top: 25%;
-	right: -100%;
 	border: 1px solid #eee;
 	border-radius: 8px;
 	color: white;
@@ -274,4 +272,86 @@
 	gap: 0.4rem;
 	padding-right: 0 1rem;
 	cursor: pointer;
+}
+
+.control-bar {
+	position: fixed;
+	width: 18rem;
+	height: 70vh;
+	background: var(--control-bar-bg);
+	border-radius: 10px;
+	top: 15rem;
+	left: 1rem;
+	color: var(--control-bar-text);
+	text-align: center;
+	padding: 1rem 0;
+}
+
+.control-bar-header {
+	font-size: 2rem;
+	font-weight: 600;
+	padding-bottom: 3rem;
+	border-bottom: var(--main-border);
+}
+
+.control-bar-items {
+	padding-top: 2rem;
+	padding-left: 2rem;
+	text-align: left;
+	font-size: 1.4rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+	color: var(--content-var-text);
+
+	a {
+		color: var(--content-var-text);		
+	}
+	
+	a::before {
+		content: '•';
+		margin-right: 1rem;
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	body {
+		padding: 6rem 1rem 0 1rem;
+	}
+	
+	.nav-bar {
+		padding: 0 1rem;
+	}
+	
+	.control-bar {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 1300px) {
+	body {
+		padding: 6rem 20rem 0 20rem;
+	}
+	
+	.nav-bar {
+		padding: 0 20rem;
+	}
+	
+	.control-bar {
+		left: 1rem;
+	}
+}
+
+@media screen and (min-width: 1600px) {
+	body {
+		padding: 6rem 40rem 0 40rem;
+	}
+	
+	.nav-bar {
+		padding: 0 40rem;
+	}
+	
+	.control-bar {
+		left: 21rem;
+	}
 }

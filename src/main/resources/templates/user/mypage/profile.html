@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="~{layout/head-fragment :: headFragment}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/user/mypage.css}">
+</head>
+<body>
+	<!-- login Navbar -->
+	<div th:replace="~{layout/nav-login :: navLoginFragment}"></div>
+	
+	<!-- Control Bar : mypage -->
+	<div class="control-bar">
+		<div class="control-bar-header">
+			<h1>마이페이지</h1>
+		</div>
+		
+		<div class="control-bar-items">
+			<a th:href="@{/my/profile}">프로필 관리</a>
+		</div>
+	</div>
+	
+	<!-- Main Container : profile -->
+	<div class="mypage-container">
+		<!-- Section Navigation -->
+		<div class="mypage-section-descript">
+			<div>
+				<a href="/index">Home</a> > <a href="/my/profile">마이페이지</a> > <a href="/my/profile">프로필 관리</a>
+			</div>
+			<h1>프로필 관리</h1>
+		</div>
+		
+		<!-- Main Content : profile -->
+		<div class="mypage-content">
+			<div class="mypage-content-item">
+				<div class="item-header">
+					<h2>개인정보</h2>
+					<button id="profile-update">개인정보 수정</button>
+				</div>
+				<div class="item-content">
+					<div class="item-group">
+						<label>회원 식별 아이디</label>
+						<input type="text" th:value="${user.publicId}" readonly>
+					</div>
+					<div class="item-group">
+						<label>가입일</label>
+						<input type="text" id="time" th:value="${user.createdAt}" readonly>
+					</div>
+					<div class="item-group">
+						<label>회원 이메일 아이디</label>
+						<input type="text" th:value="${user.email}" readonly>
+					</div>
+					<div class="item-group">
+						<label>닉네임</label>
+						<input type="text" th:value="${user.nickname}" readonly>
+					</div>
+					<div class="item-group">
+						<label>성별</label>
+						<input type="text" th:value="${user.gender}" readonly>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		const createdAt = $.id('time').build();
+		const createdAtDate = new Date(createdAt.value);
+		createdAt.value = timeFormat(createdAtDate);
+	</script>
+</body>
+</html>

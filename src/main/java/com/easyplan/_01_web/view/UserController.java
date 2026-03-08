@@ -32,9 +32,4 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@GetMapping("/my")
-	@PreAuthorize("hasRole('USER')")
-	public String mypageView() {
-		return "user/mypage";
-	}
 }

@@ -18,6 +18,22 @@ function debounce(func, timeout = 500) {
 	}
 }
 
+function timeFormat(date, time = false) {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const day = String(date.getDate()).padStart(2, '0');
+	
+	if(time) {
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		const seconds = String(date.getSeconds()).padStart(2, '0');
+		
+		return `${year}. ${month}. ${day} ${hours} : ${minutes} : ${seconds}`;
+	}
+	
+	return `${year}. ${month}. ${day}`;
+}
+
 const $ = {
 	id: (id) => {
 		let tag = document.getElementById(id);
