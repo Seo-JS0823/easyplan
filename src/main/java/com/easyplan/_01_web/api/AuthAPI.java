@@ -1,5 +1,7 @@
 package com.easyplan._01_web.api;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,13 +17,14 @@ import com.easyplan._02_application.result.AuthResult;
 import com.easyplan._02_application.result.UserResult;
 import com.easyplan._02_application.service.AuthApplication;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class LoginAPI {
+public class AuthAPI {
 	private final AuthApplication authApp;
 	
 	private final CookieProvider cookie;
@@ -49,5 +52,17 @@ public class LoginAPI {
 		UserResult.Signup result = authApp.signup(userCommand);
 		
 		return ResponseEntity.ok(GlobalResponse.success(result.message(), result));
+	}
+	
+	@PostMapping("/logout")
+	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+		String accessToken = cookie.getCookieValue(CookieName.ACCESS, request);
+		
+		cookie.clearCookie(CookieName.CLEAR_ACCESS, response);
+		
+		return ResponseEntity.ok(Map.of(
+				"success", true,
+				"message", "로그아웃 완료"
+		));
 	}
 }

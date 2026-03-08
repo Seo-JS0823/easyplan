@@ -5,6 +5,22 @@
 	--font-header: 'Inter', 'Poppins', 'Pretendard', sans-serif;
 	
 	--default-border: 1px solid #ccc;
+	
+	--main-bg: #fefefe;
+	--dark-mode-color: #333;
+	
+	--nav-main-bg: #1b2035ee;
+	--nav-dark-mode-bg-color: #111111ee;
+}
+
+[data-theme='light'] {
+	--main-bg: #fefefe;
+	--nav-main-bg: #1b2035ee;
+}
+
+[data-theme='dark'] {
+	--main-bg: #333;
+	--nav-main-bg: #111111ee;
 }
 
 * {

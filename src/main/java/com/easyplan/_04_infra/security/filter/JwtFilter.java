@@ -37,6 +37,13 @@ public class JwtFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String token = getToken(request);
 		if(token == null) {
+			String requestURI = request.getRequestURI();
+			
+			if(isRedirectTarget(requestURI)) {
+				response.sendRedirect("/");
+				return;
+			}
+			
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -80,6 +87,10 @@ public class JwtFilter extends OncePerRequestFilter {
 			}
 		}
 		return null;
+	}
+	
+	private boolean isRedirectTarget(String uri) {
+    return uri.equals("/index");
 	}
 	
 	@Override

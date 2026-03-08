@@ -1,0 +1,8 @@
+.mypage-control-bar {
+	position: absolute;
+	width: 18rem;
+	height: 30rem;
+	background: var(--main-bg);
+	top: 15rem;
+	left: 1rem;
+}

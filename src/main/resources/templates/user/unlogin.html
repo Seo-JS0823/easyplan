@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/reset.css}">
-	<link rel="stylesheet" th:href="@{/css/nav.css}">
-	<script th:src="@{/js/easyplan-util.js}"></script>
-	<title>Easy Plan</title>
+	<th:block th:replace="~{layout/head-fragment :: headFragment}"></th:block>
 </head>
 <body>
 	<!-- Unlogin Navbar -->

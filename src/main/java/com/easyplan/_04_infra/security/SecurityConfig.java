@@ -64,8 +64,10 @@ public class SecurityConfig {
 				.requestMatchers("/", "/api/auth/**")
 				.permitAll()
 				
-				.requestMatchers("/index")
+				.requestMatchers("/index", "/my", "/asset", "/board")
 				.hasAnyAuthority(Role.USER.getRole().toArray(new String[0]))
+				
+				.anyRequest().authenticated()
 		)
 		
 		;

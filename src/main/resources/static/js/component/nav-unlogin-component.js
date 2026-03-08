@@ -91,6 +91,7 @@ const USER_MODAL = {
 						input.attribute('type', 'password')
 						.id(prop.id[1])
 						.attribute('placeholder', prop.placeholder[1])
+						.on('keydown', 'LOGIN-KEY')
 					})
 				})
 		})
@@ -182,24 +183,31 @@ function loginModalComponent() {
 			}))
 		})
 	)
-	.on('LOGIN', async () => {
-		const email = $.id('login-email').build().value;
-		const password = $.id('login-password').build().value;
-		
-		const user = {
-			email: email,
-			password: password
-		}
-		
-		const res = await new FETCH('/api/auth/login').post().body(user).send();
-		
-		console.log(res);
-		
-		if(res.success === true) {
-			window.location.href = '/index';
+	.on('LOGIN', () => {
+		login();
+	})
+	.on('LOGIN-KEY', (e) => {
+		if(e.key === 'Enter') {
+			login();
 		}
 	})
 	.build();
+}
+
+async function login() {
+	const email = $.id('login-email').build().value;
+	const password = $.id('login-password').build().value;
+	
+	const user = {
+		email: email,
+		password: password
+	}
+		
+	const res = await new FETCH('/api/auth/login').post().body(user).send();
+	
+	if(res.success === true) {
+		window.location.href = '/index';
+	} 
 }
 
 function signupModalComponent() {

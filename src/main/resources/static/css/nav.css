@@ -1,14 +1,10 @@
-:root {
-	--nav-bg-color: #1b2035ee;
-}
-
 .nav-bar {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 6rem;
-	background: var(--nav-bg-color);
+	background: var(--nav-main-bg);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -33,18 +29,77 @@
 }
 
 .nav-user-control {
-	width: auto;
+	position: relative;
+	width: 6rem;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	gap: 1rem;
+	justify-content: center;
 	
-	button {
+	> button {
 		font-size: 1.2rem;
 		background: none;
 		border: none;
 		color: white;
+		padding: 1rem;
 	}
+}
+
+#user-control:hover ~ .user-control-item,
+.user-control-item:hover {
+    display: flex;
+}
+
+.user-control-item {
+	position: absolute;
+	top: 90%;
+	right: -50%;
+	width: 200%;
+	height: auto;
+	background: white;
+	border: var(--default-border);
+	border-radius: 4px;
+	overflow: hidden;
+	display: none;
+	flex-direction: column;
+	gap: 0.2rem;
+	
+	hr {
+		border: none;
+		background: #eee;
+		width: 100%;
+		height: 1px;
+	}
+	
+	button {
+		width: 100%;
+		height: 3rem;
+		background: none;
+		border: none;
+		color: #333;
+		font-size: 1.05rem;
+	}
+	a {
+		text-align: center;
+		font-size: 1.05rem;
+		align-content: center;
+		height: 3rem;
+	}
+	
+	button:hover, a:hover { background: #efefef; }
+	button:last-child { background: #eee; }
+	button:last-child:hover { background: #ddd; }
+}
+
+.white-icon {
+	fill: white;
+	stroke: white;
+}
+
+.yellow-icon {
+	fill: yellow;
+	stroke: yellow;
 }
 
 .user-modal-overlay {
@@ -202,4 +257,21 @@
 .message-nextFunc:hover {
 	background: #1b2035;
 	color: white;
+}
+
+#theme {
+	position: absolute;
+	width: 6rem;
+	height: 3rem;
+	top: 25%;
+	right: -100%;
+	border: 1px solid #eee;
+	border-radius: 8px;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	padding-right: 0 1rem;
+	cursor: pointer;
 }

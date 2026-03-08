@@ -1,5 +1,6 @@
 package com.easyplan._01_web.view;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class LoginController {
+public class UserController {
 	private final CookieProvider cookie;
 	
 	@GetMapping("")
@@ -26,7 +27,14 @@ public class LoginController {
 	}
 	
 	@GetMapping("/index")
+	@PreAuthorize("hasRole('USER')")
 	public String loginView() {
 		return "user/login";
+	}
+	
+	@GetMapping("/my")
+	@PreAuthorize("hasRole('USER')")
+	public String mypageView() {
+		return "user/mypage";
 	}
 }

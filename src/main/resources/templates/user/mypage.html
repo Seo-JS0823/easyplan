@@ -2,9 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="~{layout/head-fragment :: headFragment}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/user/mypage.css}">
 </head>
 <body>
 	<!-- login Navbar -->
 	<div th:replace="~{layout/nav-login :: navLoginFragment}"></div>
+	<div class="mypage-control-bar"></div>
 </body>
 </html>
