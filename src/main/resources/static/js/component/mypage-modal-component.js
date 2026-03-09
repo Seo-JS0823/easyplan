@@ -62,8 +62,8 @@ function mypageProfileIcon() {
 	return html;
 }
 
-function mypageProfilePasswordMatchOpen() {
-	const title = '비밀번호 변경'
+function mypageProfileNicknameMatchOpen() {
+	const title = '닉네임 변경'
 	
 	const content = {
 		sequnce: [
@@ -100,6 +100,61 @@ function mypageProfilePasswordMatchOpen() {
 				const password = e.target.value;
 				const modal = $.selector('.mypage-modal-overlay');
 				
+				modal.replaceChildren(profileNicknameModal(password));
+			}
+		}
+	})
+	.on('PROFILE_PASSWORD_MATCH', async () => {
+		const res = await passwordMatch();
+		if(res.success === true) {
+			const password = $.id('profile-password').build().value; 
+			
+			const modal = $.selector('.mypage-modal-overlay');
+			
+			modal.replaceChildren(profileNicknameModal(password));
+		}
+	})
+	.build()
+}
+
+function mypageProfilePasswordMatchOpen() {
+	const title = '비밀번호 변경'
+	
+	const content = {
+		sequnce: [
+			{
+				title: '현재 비밀번호',
+				type: 'password',
+				id: 'profile-password',
+				event: 'keydown',
+				key: 'PROFILE_PASSWORD_ENTER_RUN'
+			}
+		]
+	}
+	
+	const control = {
+		text: '확인',
+		id: 'profile-password-match',
+		event: 'click',
+		key: 'PROFILE_PASSWORD_MATCH'
+	}
+	
+	return UI.createFragment()
+	.append(
+		UI.createDocument('div', parent => {
+			parent.className('mypage-modal')
+			.use(MY_MODAL.Header(title))
+			.use(MY_MODAL.Content(content, control))
+		})
+	)
+	.on('PROFILE_PASSWORD_ENTER_RUN', async (e) => {
+		if(e.key === 'Enter') {			
+			const res = await passwordMatch();
+			console.log(res);
+			if(res.success === true) {
+				const password = e.target.value;
+				const modal = $.selector('.mypage-modal-overlay');
+				
 				modal.replaceChildren(profileUpdateModal(password));
 			}
 		}
@@ -125,6 +180,47 @@ async function passwordMatch() {
 	const res = await new FETCH('/api/user/p-m').post().credentials().body(user).send();
 	
 	return res;
+}
+
+function profileNicknameModal(password) {
+	const title = '닉네임 변경'
+	
+	const content = {
+		sequnce: [
+			{
+				title: '새로운 닉네임',
+				type: 'text',
+				id: 'profile-nickname',
+				event: 'keydown',
+				key: 'PROFILE_NICKNAME'
+			}
+		]
+	}
+	
+	const control = {
+		text: '닉네임 변경',
+		id: 'profile-update',
+		event: 'click',
+		key: 'PROFILE_UPDATE'
+	}
+	
+	return UI.createFragment()
+	.append(
+		UI.createDocument('div', parent => {
+			parent.className('mypage-modal')
+			.use(MY_MODAL.Header(title))
+			.use(MY_MODAL.Content(content, control))
+		})
+	)
+	.on('PROFILE_NICKNAME', async (e) => {
+		if(e.key === 'Enter') {
+			passwordNicknameFetch(password);
+		}
+	})
+	.on('PROFILE_UPDATE', async () => {
+		passwordNicknameFetch(password);
+	})
+	.build()
 }
 
 function profileUpdateModal(password) {
@@ -157,17 +253,41 @@ function profileUpdateModal(password) {
 			.use(MY_MODAL.Content(content, control))
 		})
 	)
-	.on('PROFILE_UPDATE', async () => {
-		const user = {
-			currentPassword: password,
-			newPassword: $.id('profile-password').build().value
+	.on('PROFILE_PASSWORD', async (e) => {
+		if(e.key === 'Enter') {
+			passwordUpdateFetch(password);
 		}
-	
-		console.log(user)
-		
-		const res = await new FETCH('/api/user/update/p').patch().credentials().body(user).send();
-		
-		console.log(res);
+	})
+	.on('PROFILE_UPDATE', async () => {
+		passwordUpdateFetch(password);
 	})
 	.build()
+}
+
+async function passwordUpdateFetch(password) {
+	const user = {
+		currentPassword: password,
+		newPassword: $.id('profile-password').build().value
+	}
+
+	const res = await new FETCH('/api/user/update/p').patch().credentials().body(user).send();
+	
+	if(res.success === true) {
+		alert(res.message);
+		window.location.href = '/';
+	}
+}
+
+async function passwordNicknameFetch(password) {
+	const user = {
+		currentPassword: password,
+		newNickname: $.id('profile-nickname').build().value
+	}
+
+	const res = await new FETCH('/api/user/update/n').patch().credentials().body(user).send();
+	
+	if(res.success === true) {
+		alert(res.message);
+		window.location.href = '/my/profile';
+	}
 }

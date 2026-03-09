@@ -19,4 +19,6 @@ public final class UserRequest {
 	public record ProfileUpdate(String password) {}
 	
 	public record ProfilePasswordUpdate(String currentPassword, String newPassword) {}
+	
+	public record ProfileNicknameUpdate(String currentPassword, String newNickname) {}
 }

@@ -34,7 +34,10 @@
 			<div class="mypage-content-item">
 				<div class="item-header">
 					<h2>개인정보</h2>
-					<button id="profile-update">비밀번호 변경</button>
+					<div class="header-group">
+						<button id="profile-update-nickname">닉네임 변경</button>
+						<button id="profile-update-password">비밀번호 변경</button>
+					</div>
 				</div>
 				<div class="item-content">
 					<div class="item-group">
@@ -90,12 +93,20 @@
 		const createdAtDate = new Date(createdAt.value);
 		createdAt.value = timeFormat(createdAtDate);
 		
-		$.id('profile-update').on('click', () => {
+		$.id('profile-update-password').on('click', () => {
 			const modal = $.selector('.mypage-modal-overlay');
 			
 			$.toggle(modal, 'close');
 			
 			modal.replaceChildren(mypageProfilePasswordMatchOpen())
+		})
+		
+		$.id('profile-update-nickname').on('click', () => {
+			const modal = $.selector('.mypage-modal-overlay');
+			
+			$.toggle(modal, 'close');
+			
+			modal.replaceChildren(mypageProfileNicknameMatchOpen())
 		})
 		
 		$.id('mypage-modal-ctrl').on('click', (e) => {

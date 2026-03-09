@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.easyplan._02_application.result.UserResult;
 import com.easyplan._02_application.result.UserResult.Profile;
+import com.easyplan._03_domain.user.model.Nickname;
 import com.easyplan._03_domain.user.model.Password;
 import com.easyplan._03_domain.user.model.PublicId;
 import com.easyplan._03_domain.user.model.User;
@@ -44,6 +45,24 @@ public class UserApplication {
 	@Transactional
 	public UserResult.Profile passwordUpdate(String publicId, String newPassword) {
 		userService.updatePassword(PublicId.of(publicId), Password.of(newPassword));
+		
+		User user = userService.loadUserActiveByPublicId(PublicId.of(publicId));
+		
+		UserResult.Profile result = new Profile(
+				user.getPublicId().getValue(),
+				user.getEmail().getValue(),
+				user.getNickname().getValue(),
+				user.getGender(),
+				user.getCreatedAt()
+		);
+		
+		return result;
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_USER') and #publicId == authentication.name")
+	@Transactional
+	public UserResult.Profile nicknameUpdate(String publicId, String newNickname) {
+		userService.updateNickname(PublicId.of(publicId), Nickname.of(newNickname));
 		
 		User user = userService.loadUserActiveByPublicId(PublicId.of(publicId));
 		
