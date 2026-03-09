@@ -1,4 +1,4 @@
-package com.easyplan._04_infra.persistence.orm.auth;
+package com.easyplan._04_infra.security;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,6 +22,7 @@ import com.easyplan._03_domain.auth.model.TokenClaims;
 import com.easyplan._03_domain.auth.model.TokenExpiration;
 import com.easyplan._03_domain.auth.model.TokenId;
 import com.easyplan._03_domain.auth.service.TokenService;
+import com.easyplan._04_infra.persistence.orm.auth.AuthDataAccessError;
 import com.easyplan.shared.time.Clock;
 
 import io.jsonwebtoken.Claims;
@@ -109,12 +110,10 @@ public class TokenServiceImpl implements TokenService {
 	}
 
 	@Override
-	public RefreshTokenHash hashToken(RefreshToken refreshToken) {
-		String token = refreshToken.getValue();
-		
+	public RefreshTokenHash hashToken(String refreshToken) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);
-			byte[] hashBytes = digest.digest(token.getBytes(StandardCharsets.UTF_8));
+			byte[] hashBytes = digest.digest(refreshToken.getBytes(StandardCharsets.UTF_8));
 			String hash = Base64.getEncoder().encodeToString(hashBytes);
 			
 			return RefreshTokenHash.of(hash);
@@ -168,7 +167,7 @@ public class TokenServiceImpl implements TokenService {
 
 	@Override
 	public boolean validateRefreshToken(String rawRefreshToken, String encodedRefreshToken) {
-	    String rawHashValue = hashToken(RefreshToken.ofFromCookie(rawRefreshToken)).getValue();
+	    String rawHashValue = hashToken(rawRefreshToken).getValue();
 	    return MessageDigest.isEqual(
 	        rawHashValue.getBytes(StandardCharsets.UTF_8), 
 	        encodedRefreshToken.getBytes(StandardCharsets.UTF_8)

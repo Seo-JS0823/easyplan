@@ -11,7 +11,7 @@ public interface TokenService {
 	
 	RefreshToken createRefreshToken();
 	
-	RefreshTokenHash hashToken(RefreshToken refreshToken);
+	RefreshTokenHash hashToken(String refreshToken);
 	
 	TokenClaims extractClaims(String accessToken);
 	

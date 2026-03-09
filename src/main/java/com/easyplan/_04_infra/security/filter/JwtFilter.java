@@ -12,6 +12,9 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.easyplan._01_web.util.CookieName;
+import com.easyplan._01_web.util.CookieProvider;
+import com.easyplan._02_application.result.AuthResult;
+import com.easyplan._02_application.service.AuthApplication;
 import com.easyplan._03_domain.auth.service.TokenService;
 import com.easyplan._03_domain.user.model.PublicId;
 import com.easyplan._03_domain.user.model.User;
@@ -32,11 +35,32 @@ public class JwtFilter extends OncePerRequestFilter {
 	
 	private final UserRepository userRepo;
 	
+	private final AuthApplication authApp;
+	
+	private final CookieProvider cookie;
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String token = getToken(request);
+		String token = getToken(CookieName.ACCESS, request);
+		String rtToken = getToken(CookieName.REFRESH, request);
 		if(token == null) {
+			// reissue
+			if(rtToken != null) {
+				AuthResult.Login reissue = authApp.reissue(rtToken);
+				
+				cookie.addCookie(CookieName.ACCESS, reissue.accessToken(), response);
+				cookie.addCookie(CookieName.REFRESH, reissue.refreshToken(), response);
+				
+				UsernamePasswordAuthenticationToken authentication = authentication(reissue.message());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				
+				filterChain.doFilter(request, response);
+				return;
+			}
+			
 			String requestURI = request.getRequestURI();
 			
 			if(isRedirectTarget(requestURI)) {
@@ -77,12 +101,12 @@ public class JwtFilter extends OncePerRequestFilter {
 		return auth;
 	}
 
-	private String getToken(HttpServletRequest request) {
+	private String getToken(CookieName cookie, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies == null) return null;
 		
 		for(Cookie c : cookies) {
-			if(c.getName().equals(CookieName.ACCESS.getName())) {
+			if(c.getName().equals(cookie.getName())) {
 				return c.getValue();
 			}
 		}

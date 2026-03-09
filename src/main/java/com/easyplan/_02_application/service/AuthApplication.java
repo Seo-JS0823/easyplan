@@ -2,16 +2,19 @@ package com.easyplan._02_application.service;
 
 import org.springframework.stereotype.Service;
 
+import com.easyplan._02_application.command.AuthCommand;
 import com.easyplan._02_application.command.UserCommand;
 import com.easyplan._02_application.result.AuthResult;
 import com.easyplan._02_application.result.UserResult;
 import com.easyplan._02_application.result.UserResult.Signup;
+import com.easyplan._03_domain.auth.model.Auth;
 import com.easyplan._03_domain.auth.model.Subject;
 import com.easyplan._03_domain.auth.model.TokenPair;
 import com.easyplan._03_domain.auth.service.AuthService;
 import com.easyplan._03_domain.user.model.Email;
 import com.easyplan._03_domain.user.model.Nickname;
 import com.easyplan._03_domain.user.model.Password;
+import com.easyplan._03_domain.user.model.PublicId;
 import com.easyplan._03_domain.user.model.User;
 import com.easyplan._03_domain.user.service.UserService;
 
@@ -59,4 +62,44 @@ public class AuthApplication {
 				tokens.getRefreshToken().getValue()
 		);
 	}
+	
+	// 토큰 재발급
+	@Transactional
+	public AuthResult.Login reissue(String refreshToken) {
+		Auth auth = authService.loadAuthByRefreshToken(refreshToken);
+		
+		PublicId publicId = PublicId.of(auth.getSubject().getValue());
+		
+		User user = userService.loadUserActiveByPublicId(publicId);
+		
+		TokenPair tokens = authService.createTokenPair(publicId.getValue(), user.getRole().name());
+		
+		authService.rotationRegister(auth, tokens.getRefreshToken());
+		
+		return new AuthResult.Login(
+				publicId.getValue(),
+				tokens.getAccessToken().getValue(),
+				tokens.getRefreshToken().getValue()
+		);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

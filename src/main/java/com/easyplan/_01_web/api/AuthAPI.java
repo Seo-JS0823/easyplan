@@ -1,7 +1,5 @@
 package com.easyplan._01_web.api;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,14 +53,10 @@ public class AuthAPI {
 	}
 	
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-		String accessToken = cookie.getCookieValue(CookieName.ACCESS, request);
-		
+	public ResponseEntity<GlobalResponse<Object>> logout(HttpServletRequest request, HttpServletResponse response) {
 		cookie.clearCookie(CookieName.CLEAR_ACCESS, response);
+		cookie.clearCookie(CookieName.CLEAR_REFRESH, response);
 		
-		return ResponseEntity.ok(Map.of(
-				"success", true,
-				"message", "로그아웃 완료"
-		));
+		return GlobalResponse.successEntity("로그아웃 완료", null);
 	}
 }

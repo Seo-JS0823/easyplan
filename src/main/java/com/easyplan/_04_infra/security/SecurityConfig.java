@@ -23,6 +23,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.easyplan._01_web.util.CookieProvider;
+import com.easyplan._02_application.service.AuthApplication;
 import com.easyplan._03_domain.auth.service.TokenService;
 import com.easyplan._03_domain.user.model.Role;
 import com.easyplan._03_domain.user.repository.UserRepository;
@@ -40,6 +42,10 @@ public class SecurityConfig {
 	private final TokenService tokenService;
 	
 	private final UserRepository userRepo;
+	
+	private final AuthApplication authApp;
+	
+	private final CookieProvider cookie;
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -79,17 +85,12 @@ public class SecurityConfig {
 	
 	@Bean
 	JwtFilter jwtFilter() {
-		return new JwtFilter(tokenService, userRepo);
+		return new JwtFilter(tokenService, userRepo, authApp, cookie);
 	}
 	
 	@Bean
 	CsrfCookieFilter csrfCookieFilter() {
 		return new CsrfCookieFilter();
-	}
-
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
 	}
 	
 	@Bean
