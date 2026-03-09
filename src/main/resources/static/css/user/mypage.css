@@ -99,13 +99,101 @@
 	input {
 		width: calc(100% - 13rem);
 		height: 80%;
-		border: var(--main-border);
 		border-radius: 4px;
 		padding-left: 0.6rem;
+		border: var(--main-border);
 		background: var(--main-bg);
 		color: var(--content-text);
 	}
 }
+
+.mypage-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--modal-overlay-bg);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.mypage-modal-overlay.close {
+	display: none;
+}
+
+.mypage-modal {
+	width: 30rem;
+	height: 40rem;
+	border-radius: 1rem;
+	overflow: hidden;
+	
+	.header {
+		width: 100%;
+		height: 5rem;
+		padding: 1rem;
+		background: var(--nav-main-bg);
+		font-size: 2rem;
+		color: white;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	
+	.content {
+		width: 100%;
+		height: calc(100% - 5rem);
+		padding: 1rem;
+		background: var(--content-bg);
+		color: var(--content-text);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.6rem;
+		
+		.content-group {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 0.2rem;
+			font-size: 1.4rem;
+			
+			label {
+				padding-left: 0.4rem;
+			}
+			
+			input[type=password], input[type=text] {
+				width: 100%;
+				border: var(--main-border);
+				background: var(--main-bg);
+				color: var(--content-text);
+				padding-left: 0.6rem;
+				height: 4rem;
+				border-radius: 10px;
+			}
+			
+			button {
+				margin-top: 5rem;
+				width: 100%;
+				height: 3rem;
+				border: var(--main-border);
+				border-radius: 10px;
+				background: var(--nav-main-bg);
+				color: white;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
 
 
 

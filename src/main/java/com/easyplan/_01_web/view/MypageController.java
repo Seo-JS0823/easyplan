@@ -21,6 +21,8 @@ public class MypageController {
 	@GetMapping("/profile")
 	@PreAuthorize("hasRole('USER')")
 	public String profileView(Authentication auth, Model model) {
+		System.out.println(auth.getName());
+		
 		String publicId = auth.getName();
 		
 		UserResult.Profile profile = userApp.getProfileInfo(publicId);

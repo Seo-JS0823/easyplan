@@ -119,4 +119,25 @@ public class UserService {
 		
 		userRepo.updateNickname(user);
 	}
+	
+	public void updatePassword(PublicId publicId, Password newPassword) {
+		User user = loadUserActiveByPublicId(publicId);
+		
+		user.updatePasswordHash(passwordService.encode(newPassword), clock.now());
+		
+		userRepo.updatePasswordHash(user);
+	}
+	
+	/**
+	 * 회원 정보 업데이트 전 패스워드 검증
+	 */
+	public boolean profileUpdatePasswordMatch(String publicId, String rawPassword) {
+		User user = userRepo.findByPublicId(PublicId.of(publicId))
+				.orElseThrow(() -> new UserException(UserError.USER_NOT_FOUND));
+		
+		PasswordHash encoded = user.getPasswordHash();
+		Password raw = Password.of(rawPassword);
+		
+		return passwordService.matches(raw, encoded);
+	}
 }

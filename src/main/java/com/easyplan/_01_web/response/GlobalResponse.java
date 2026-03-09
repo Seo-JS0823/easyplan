@@ -25,6 +25,10 @@ public class GlobalResponse<T> {
 		return new GlobalResponse<>(200, true, message, data);
 	}
 	
+	private static <T> GlobalResponse<T> failResponse(String message, T data) {
+		return new GlobalResponse<>(400, false, message, data);
+	}
+	
 	public static <T> GlobalResponse<T> success() {
 		return successResponse("success", null);
 	}
@@ -47,5 +51,9 @@ public class GlobalResponse<T> {
 	
 	public static <T> ResponseEntity<GlobalResponse<T>> successEntity(String message, T data) {
 		return ResponseEntity.ok(successResponse(message, data));
+	}
+	
+	public static <T> ResponseEntity<GlobalResponse<T>> failEntity() {
+		return ResponseEntity.ok(failResponse("fail", null));
 	}
 }

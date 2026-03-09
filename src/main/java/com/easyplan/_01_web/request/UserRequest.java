@@ -15,4 +15,8 @@ public final class UserRequest {
 			return new UserCommand.Signup(email, password, nickname, gender);
 		}
 	}
+	
+	public record ProfileUpdate(String password) {}
+	
+	public record ProfilePasswordUpdate(String currentPassword, String newPassword) {}
 }
