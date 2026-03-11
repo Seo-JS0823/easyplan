@@ -2,11 +2,11 @@ package com.easyplan._02_application.service;
 
 import org.springframework.stereotype.Service;
 
-import com.easyplan._02_application.command.AuthCommand;
 import com.easyplan._02_application.command.UserCommand;
 import com.easyplan._02_application.result.AuthResult;
 import com.easyplan._02_application.result.UserResult;
 import com.easyplan._02_application.result.UserResult.Signup;
+import com.easyplan._03_domain.asset.service.AssetService;
 import com.easyplan._03_domain.auth.model.Auth;
 import com.easyplan._03_domain.auth.model.Subject;
 import com.easyplan._03_domain.auth.model.TokenPair;
@@ -28,6 +28,8 @@ public class AuthApplication {
 	
 	private final AuthService authService;
 	
+	private final AssetService assetService;
+	
 	// 회원가입
 	@Transactional
 	public UserResult.Signup signup(UserCommand.Signup command) {
@@ -36,6 +38,10 @@ public class AuthApplication {
 		Password password = Password.of(command.password());
 		
 		User created = userService.register(email, nickname, password, command.gender());
+		
+		if(created.getId() != null) {
+			assetService.createSystemAccounts(created.getId());
+		}
 		
 		return new Signup("회원가입이 완료되었습니다.", created.getEmail().getValue());
 	}
