@@ -15,4 +15,9 @@ public class AssetController {
 	public String assetView() {
 		return "asset/dashboard";
 	}
+	
+	@GetMapping("/ledger/create")
+	public String ledgerCreateView() {
+		return "asset/ledger/ledger-create";
+	}
 }

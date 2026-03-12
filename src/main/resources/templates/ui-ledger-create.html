@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>새 가계부 만들기</title>
+    <style>
+        /* 기본 레이아웃 설정 */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+        
+        .main-content {
+            margin-left: 250px; 
+            padding: 80px 40px 40px; 
+            max-width: 800px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        h2 { color: #333; margin-bottom: 20px; }
+
+        /* 폼 요소 */
+        .form-group { margin-bottom: 24px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #2E8B57;
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
+        }
+
+        /* 버튼 */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-outline {
+            background: #fff;
+            border: 2px solid #2E8B57;
+            color: #2E8B57;
+        }
+        .btn-outline:hover { background: #f0fdf4; }
+        .btn-primary {
+            background: #2E8B57;
+            color: #fff;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .btn-primary:hover { background: #246b43; }
+
+        /* [신규] 선택된 항목 표시용 배지 스타일 */
+        .selected-items-container {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 20px;
+        }
+        .item-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        /* 카테고리별 색상 구분 */
+        .badge-asset { background-color: #e6f4ea; color: #1e8e3e; }       /* 자산: 초록 */
+        .badge-liabilities { background-color: #fce8e6; color: #d93025; } /* 부채: 빨강 */
+        .badge-income { background-color: #e8f0fe; color: #1a73e8; }      /* 수입: 파랑 */
+        .badge-expenses { background-color: #fef7e0; color: #e37400; }    /* 비용: 주황 */
+
+        /* 모달 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            width: 500px;
+            max-height: 80vh;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 { margin: 0; color: #2E8B57; }
+        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; }
+        .modal-body { padding: 20px; overflow-y: auto; }
+        .category-group { margin-bottom: 20px; }
+        .category-title { font-weight: bold; margin-bottom: 10px; color: #444; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        .checkbox-label { display: block; margin-bottom: 8px; cursor: pointer; }
+        .modal-footer { padding: 20px; border-top: 1px solid #eee; text-align: right; }
+
+        /* 기초 잔액 입력란 */
+        #balance-inputs-container {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        .balance-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .balance-item span { font-weight: 500; }
+        .balance-item input { width: 200px; text-align: right; }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="card">
+            <h2>📝 새 가계부 만들기</h2>
+            <p style="color: #666; margin-bottom: 30px;">당신의 자산 관리를 시작할 새로운 장부를 만듭니다.</p>
+
+            <form id="ledgerForm" action="/api/ledgers" method="POST">
+                
+                <div class="form-group">
+                    <label for="ledgerName">가계부 이름</label>
+                    <input type="text" id="ledgerName" name="ledgerName" class="form-control" placeholder="예: 2024 내집마련 통장, 우리집 생활비" required>
+                </div>
+
+                <div class="form-group">
+                    <label>거래 항목 (계정과목) 설정</label>
+                    <p style="font-size: 14px; color: #888; margin-bottom: 15px;">사용하실 항목만 체크하세요. 나중에도 추가할 수 있습니다.</p>
+                    <button type="button" class="btn btn-outline" onclick="openModal()">+ 기본 항목 선택하기</button>
+                    
+                    <div id="selected-items-display" class="selected-items-container">
+                        <p style="font-size: 14px; color: #aaa; margin: 0; padding-top: 5px;">아직 선택된 항목이 없습니다.</p>
+                    </div>
+                </div>
+
+                <div id="balance-inputs-container">
+                    <h4 style="margin-top: 0; color: #2E8B57;">💰 기초 잔액 설정</h4>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">현재 가지고 있는 금액(자산)과 갚아야 할 금액(부채)을 입력해주세요.</p>
+                    <div id="balance-list"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">가계부 생성 완료</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="accountModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>항목 선택</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-checkboxes">
+                <div class="category-group">
+                    <div class="category-title">자산 (ASSET)</div>
+                    <label class="checkbox-label"><input type="checkbox" data-type="ASSET" value="현금"> 현금</label>
+                    <label class="checkbox-label"><input type="checkbox" data-type="ASSET" value="은행 예금"> 은행 예금</label>
+                </div>
+                <div class="category-group">
+                    <div class="category-title">부채 (LIABILITIES)</div>
+                    <label class="checkbox-label"><input type="checkbox" data-type="LIABILITIES" value="신용카드"> 신용카드</label>
+                    <label class="checkbox-label"><input type="checkbox" data-type="LIABILITIES" value="대출금"> 대출금</label>
+                </div>
+                <div class="category-group">
+                    <div class="category-title">수입 (INCOME)</div>
+                    <label class="checkbox-label"><input type="checkbox" data-type="INCOME" value="월급" checked> 월급</label>
+                </div>
+                <div class="category-group">
+                    <div class="category-title">비용 (EXPENSES)</div>
+                    <label class="checkbox-label"><input type="checkbox" data-type="EXPENSES" value="식비" checked> 식비</label>
+                    <label class="checkbox-label"><input type="checkbox" data-type="EXPENSES" value="교통/차량" checked> 교통/차량</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" style="border: none; color: #666;" onclick="closeModal()">취소</button>
+                <button type="button" class="btn btn-primary" style="margin-top: 0; width: auto;" onclick="applySelection()">선택 완료</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('accountModal');
+        const balanceContainer = document.getElementById('balance-inputs-container');
+        const balanceList = document.getElementById('balance-list');
+        const displayContainer = document.getElementById('selected-items-display');
+
+        function openModal() { modal.style.display = 'flex'; }
+        function closeModal() { modal.style.display = 'none'; }
+
+        // 모달에서 선택 완료 버튼 클릭 시
+        function applySelection() {
+            balanceList.innerHTML = ''; 
+            displayContainer.innerHTML = ''; // 기존에 표시된 배지들 초기화
+            
+            const checkboxes = document.querySelectorAll('#modal-checkboxes input[type="checkbox"]:checked');
+            let needsBalanceInput = false;
+            let accountIndex = 0;
+
+            if (checkboxes.length === 0) {
+                displayContainer.innerHTML = '<p style="font-size: 14px; color: #aaa; margin: 0; padding-top: 5px;">아직 선택된 항목이 없습니다.</p>';
+                balanceContainer.style.display = 'none';
+                closeModal();
+                return;
+            }
+
+            checkboxes.forEach((cb) => {
+                const type = cb.getAttribute('data-type');
+                const name = cb.value;
+
+                // 카테고리를 한글로 변환
+                const typeLabel = type === 'ASSET' ? '자산' : type === 'LIABILITIES' ? '부채' : type === 'INCOME' ? '수입' : '비용';
+                
+                // 1. 선택 항목 배지(Badge) 렌더링
+                const badgeClass = `badge-${type.toLowerCase()}`;
+                displayContainer.innerHTML += `
+                    <span class="item-badge ${badgeClass}">
+                        ${name} <small style="margin-left:4px; opacity:0.8; font-weight:normal;">(${typeLabel})</small>
+                    </span>
+                `;
+
+                // 2. 서버 전송용 hidden input 생성
+                balanceList.innerHTML += `<input type="hidden" name="accounts[${accountIndex}].name" value="${name}">`;
+                balanceList.innerHTML += `<input type="hidden" name="accounts[${accountIndex}].type" value="${type}">`;
+
+                // 3. 자산/부채 항목 기초 잔액 입력 폼 생성
+                if (type === 'ASSET' || type === 'LIABILITIES') {
+                    needsBalanceInput = true;
+                    balanceList.innerHTML += `
+                        <div class="balance-item">
+                            <span>${name} <small style="color:#888;">(${typeLabel})</small></span>
+                            <div style="position: relative;">
+                                <input type="number" class="form-control" name="accounts[${accountIndex}].initialBalance" placeholder="0" value="0">
+                                <span style="position: absolute; right: 15px; top: 12px; color: #aaa;">원</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                accountIndex++;
+            });
+
+            // 자산/부채가 포함되어 있으면 잔액 입력창 표시
+            balanceContainer.style.display = needsBalanceInput ? 'block' : 'none';
+            closeModal();
+        }
+
+        // 페이지 로드 시 기본 체크된 항목들을 화면에 즉시 반영
+        document.addEventListener("DOMContentLoaded", function() {
+            applySelection();
+        });
+
+        // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -315,6 +315,10 @@
 }
 
 @media screen and (max-width: 1024px) {
+	html {
+		font-size: 11px;
+	}
+	
 	body {
 		padding: 6rem 1rem 0 1rem;
 	}

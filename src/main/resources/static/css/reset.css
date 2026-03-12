@@ -20,9 +20,15 @@
 	--content-text: #333;
 	
 	--main-content-bg: #ccc;
+	--main-border-radius: 16px;
+	
+	--card-bg: #fefefe;
+	--card-shadow: 0 0 8px #ccc;
 	
 	--nav-main-bg: #1b2035ee;
 	--nav-dark-mode-bg-color: #111111ee;
+	
+	--section-text: green;
 	
 	--modal-overlay-bg: rgba(0, 0, 0, 0.2);
 }
@@ -41,6 +47,15 @@
 	--content-bg: #eee;
 	--content-text: #333;
 	
+	--section-text: green;
+	--main-content-bg: #efefef;
+	
+	--card-bg: #fefefe;
+	--card-shadow: 0 0 8px #ccc;
+	--card-item-shadow: 0 0 3px #ccc;
+	--card-item-bg: white;
+	--card-text: #333;
+	
 	--modal-overlay-bg: rgba(0, 0, 0, 0.2);
 }
 
@@ -57,6 +72,15 @@
 	--content-header-hover: #111;
 	--content-bg: #444;
 	--content-text: white;
+	
+	--section-text: gray;
+	--main-content-bg: #222;
+	
+	--card-bg: #333;
+	--card-shadow: 0 0 8px #111;
+	--card-item-shadow: 0 0 5px #1f1f1f;
+	--card-item-bg: #111;
+	--card-text: #eee;
 	
 	--modal-overlay-bg: rgba(0, 0, 0, 0.5);
 }
