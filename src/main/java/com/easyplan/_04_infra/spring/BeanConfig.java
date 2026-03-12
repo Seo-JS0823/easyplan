@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.easyplan._03_domain.asset.repository.AccountRepository;
-import com.easyplan._03_domain.asset.service.AssetService;
 import com.easyplan._03_domain.auth.repository.AuthRepository;
 import com.easyplan._03_domain.auth.repository.BlacklistRepository;
 import com.easyplan._03_domain.auth.service.AuthService;
@@ -27,11 +25,6 @@ public class BeanConfig {
 	@Bean
 	AuthService authService(AuthRepository authRepo, BlacklistRepository blacklistRepo, TokenService tokenService, Clock clock) {
 		return new AuthService(authRepo, blacklistRepo, tokenService, clock);
-	}
-	
-	@Bean
-	AssetService assetService(AccountRepository accountRepo) {
-		return new AssetService(accountRepo);
 	}
 	
 	@Bean
