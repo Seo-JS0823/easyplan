@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'LeeSunSinDotum';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+:root {
+  /* 폰트 */
+  --font-family-header: 'Inter', 'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-family-content: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+
+  /* 폰트 사이즈 */
+  --font-size-100: 0.5rem;
+  --font-size-200: 0.625rem;
+  --font-size-300: 0.75rem;
+  --font-size-400: 0.875rem;
+  --font-size-500: 1rem;
+  --font-size-600: 1.25rem;
+  --font-size-700: 1.5rem;
+  --font-size-800: 1.75rem;
+  --font-size-900: 2rem;
+
+  /* 폰트 굵기 */
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* 폰트 색상 */
+  --color-text-primary: #333;
+  --color-text-caption: #6d7080;
+  --color-text-inner: white;
+
+  /* 제목용 폰트 */
+  --font-title-size: var(--font-size-700);
+  --font-title-weight: var(--font-weight-bold);
+
+  /* 컴포넌트 헤더 폰트 */
+  --font-head-size: var(--font-size-600);
+  --font-head-weight: var(--font-weight-semibold);
+
+  /* 본문 폰트 */
+  --font-content-size: var(--font-size-500);
+  --font-content-weight: var(--font-weight-medium);
+
+  /* 캡션 폰트 */
+  --font-caption-size: var(--font-size-300);
+  --font-caption-weight: var(--font-weight-medium);
+}
+
+.font-title {
+  font-family: var(--font-family-header);
+  font-size: var(--font-title-size);
+  font-weight: var(--font-title-weight);
+}
+
+.font-header {
+  font-family: var(--font-family-header);
+  font-size: var(--font-head-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.font-content {
+  font-family: var(--font-family-content);
+  font-size: var(--font-content-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.color-text-primary {
+  color: var(--color-text-primary);
+}
+
+.color-text-caption {
+  color: var(--color-text-caption);
+}
+
+.color-text-inner {
+  color: var(--color-text-inner);
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

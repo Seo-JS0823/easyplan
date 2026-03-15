@@ -1,0 +1,38 @@
+button {
+  border: none;
+  border-radius: var(--space-1);
+  cursor: pointer;
+}
+
+.btn {
+  color: var(--color-text-inner);
+  padding: var(--space-2) var(--space-3);
+  outline: none;
+}
+
+.btn.success {
+  background-color: var(--success);
+}
+.btn.success:hover {
+  background-color: var(--success-hover);
+}
+.btn.danger,
+.btn.delete {
+  background-color: var(--danger);
+}
+.btn.danger:hover,
+.btn.delete:hover {
+  background-color: var(--danger-hover);
+}
+.btn.warning {
+  background-color: var(--warning);
+}
+.btn.warning:hover {
+  background-color: var(--warning-hover);
+}
+.btn.update {
+  background-color: var(--update);
+}
+.btn.update:hover {
+  background-color: var(--update-hover);
+}

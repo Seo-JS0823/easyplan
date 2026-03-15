@@ -1,0 +1,201 @@
+:root,
+:root[data-theme=light] {
+  --topbar-height: 5rem;
+  --topbar-item-padding: 0.6rem 1rem;
+  --topbar-dropdown-item-padding: 0.6rem 0rem 0.6rem 0.8rem;
+
+  --topbar-bg: white;
+  --topbar-block-bg: #eaeaea;
+  --topbar-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+
+  --topbar-link-color: rgb(4, 5, 48);
+  
+  --topbar-login-bg: var(--blue-300);
+  --topbar-signup-bg: var(--green-300);
+  
+  --topbar-login-hover: var(--blue-400);
+  --topbar-signup-hover: var(--green-400);
+}
+
+:root[data-theme=dark] {
+  --topbar-bg: #1f1f1f;
+  --topbar-block-bg: #2f2f2f;
+  --topbar-shadow: 0 3px 10px rgba(173, 173, 211, 0.05);
+
+  --topbar-link-color: rgb(231, 227, 227);
+  
+  --topbar-login-bg: var(--blue-500);
+  --topbar-signup-bg: var(--green-500);
+  
+  --topbar-login-hover: var(--blue-400);
+  --topbar-signup-hover: var(--green-400);
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--topbar-height);
+  background-color: var(--topbar-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--topbar-shadow);
+  padding: var(--body-padding);
+  transition: padding 0.2s ease;
+}
+
+.topbar-block {
+  width: auto;
+  height: 100%;
+  padding: var(--block-padding);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.topbar-link,
+.topbar-dropdown {
+  align-content: center;
+  padding: var(--block-padding);
+  color: var(--topbar-link-color);
+  font-family: var(--font-family-header);
+  font-size: var(--font-title-size);
+  font-weight: var(--font-title-weight);
+}
+
+.topbar-btn {
+  width: 42px;
+  height: 42px;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  color: var(--topbar-link-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-btn:hover {
+  background: var(--topbar-block-bg);
+}
+
+.topbar-control {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	
+	#login-modal {
+		background: var(--topbar-login-bg);
+	}
+	
+	#login-modal:hover {
+		background: var(--topbar-login-hover);
+	}
+	
+	#signup-modal {
+		background: var(--topbar-signup-bg);
+	}
+	
+	#signup-modal:hover {
+		background: var(--topbar-signup-hover);
+	}
+}
+
+.topbar-control button {
+	padding: var(--space-2) var(--space-3);
+	color: white;
+	text-shadow: 0 0 1px #333;
+}
+
+.topbar-user {
+  position: relative;
+  height: 85%;
+  align-content: center;
+  background-color: var(--topbar-block-bg);
+  padding: var(--block-padding);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-radius: 10px;
+  color: var(--topbar-link-color);
+  cursor: pointer;
+}
+
+.topbar-icon {
+  display: block;
+  width: 10rem;
+  height: 100%;
+  align-content: center;
+  margin-right: 2rem;
+}
+
+.topbar-user-icon {
+  width: 2.2rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 50%;
+}
+
+.topbar-dropdown {
+  position: absolute;
+  width: 100%;
+  min-width: 10rem;
+  min-height: 3rem;
+  top: 95%;
+  right: 0;
+  background: var(--topbar-bg);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.8rem 0;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+
+.topbar-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.topbar-dropdown-header,
+.topbar-dropdown-item {
+  width: 100%;
+  padding: var(--topbar-dropdown-item-padding);
+  color: var(--topbar-link-color);
+  font-family: var(--font-family-content);
+}
+
+.topbar-dropdown-header {
+  font-size: var(--font-size-300);
+}
+
+.topbar-dropdown-item {
+  font-size: var(--font-size-400);
+  display: flex;
+  align-items: center;
+}
+
+.topbar-dropdown-item:hover {
+  background: var(--topbar-block-bg);
+}
+
+.topbar-dropdown-item svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.6rem;
+}
+
+.topbar-dropdown-line {
+  width: 100%;
+  height: 1px;
+  margin: 0.6rem 0;
+  background-color: var(--topbar-block-bg);
+}

@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="headFragment">
+<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/reset.css}">
-	<link rel="stylesheet" th:href="@{/css/nav.css}">
-	<script th:src="@{/js/easyplan-util.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/token/root.css}">
 	<title>Easy Plan</title>
-</th:block>
+</head>
 <body>
+	<header th:replace="~{component/unlogin-topbar :: TopBar}"></header>
+	
+	<!-- 메인 콘텐츠 -->
+	<main>
+		
+	</main>
 </body>
 </html>

@@ -1,0 +1,82 @@
+:root[data-theme=light] {
+  --badge-red: var(--red-300);
+  --badge-blue: var(--blue-300);
+  --badge-pink: var(--pink-300);
+  --badge-indigo: var(--indigo-300);
+  --badge-purple: var(--purple-300);
+  --badge-orange: var(--orange-300);
+  --badge-teal: var(--teal-300);
+  --badge-cyan: var(--cyan-300);
+  --badge-gray: var(--gray-300);
+}
+
+:root[data-theme=dark] {
+  --badge-red: var(--red-600);
+  --badge-blue: var(--blue-600);
+  --badge-pink: var(--pink-600);
+  --badge-indigo: var(--indigo-600);
+  --badge-purple: var(--purple-600);
+  --badge-orange: var(--orange-600);
+  --badge-teal: var(--teal-600);
+  --badge-cyan: var(--cyan-600);
+  --badge-gray: var(--gray-600);
+}
+
+.badge {
+  width: auto;
+  height: auto;
+  font-size: var(--font-size-400);
+  border-radius: var(--space-5);
+  background: var(--gray-100);
+  padding: var(--space-1) var(--space-3);
+  color: var(--color-text-inner);
+  cursor: default;
+  text-shadow: 0 0 2px var(--color-bg-shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.badge-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.badge-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.badge-line {
+  width: 1px;
+  height: 65%;
+  background: white;
+}
+
+.badge.red {
+  background-color: var(--badge-red);
+}
+.badge.blue {
+  background-color: var(--badge-blue);
+}
+.badge.pink {
+  background-color: var(--badge-pink);
+}
+.badge.indigo {
+  background-color: var(--badge-indigo);
+}
+.badge.purple {
+  background-color: var(--badge-purple);
+}
+.badge.orange {
+  background-color: var(--badge-orange);
+}
+.badge.teal {
+  background-color: var(--badge-teal);
+}
+.badge.syan {
+  background-color: var(--badge-cyan);
+}
+.badge.gray {
+  background-color: var(--badge-gray);
+}

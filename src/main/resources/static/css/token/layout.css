@@ -1,0 +1,86 @@
+@import url(../components/input.css);
+@import url(../components/badge.css);
+@import url(../components/bar.css);
+@import url(../components/button.css);
+@import url(../components/select.css);
+@import url(../components/card.css);
+
+
+:root {
+  --space-0: 0;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --container-xs: 20rem;
+  --container-sm: 36rem;
+  --container-md: 48rem;
+  --container-lg: 64rem;
+  --container-xl: 75rem;
+  --container-2xl: 90rem;
+
+  --block-sm: 6rem;
+  --block-md: 9rem;
+  --block-lg: 12rem;
+
+  --grid-gap-sm: var(--space-2);
+  --grid-gap-md: var(--space-4);
+  --grid-gap-lg: var(--space-5);
+
+  --z-base: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-toast: 1060;
+
+  --block-padding: 0.2rem 0.4rem;
+  --item-padding: 0.1rem 0.2rem;
+}
+
+.w-sm { width: var(--block-sm); }
+.w-md { width: var(--block-md); }
+.w-lg { width: var(--block-lg); }
+
+@media (min-width: 478px) {
+  :root {
+    --main-padding: 0.4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --body-padding: 0;
+    --main-padding: 0.6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --body-padding: 0 10rem;
+    --main-padding: 0.6rem 10rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --body-padding: 0 20rem;
+    --main-padding: 0.7rem 20rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --body-padding: 0 30rem;
+    --main-padding: 1rem 30rem;
+  }
+}

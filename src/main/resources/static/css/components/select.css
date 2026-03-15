@@ -1,0 +1,73 @@
+:root,
+:root[data-theme=light] {
+  --option-bg: var(--input-bg);
+  --option-hover: var(--input-border-hover);
+  --option-text: var(--input-text);
+  --option-border: var(--input-border);
+  --option-bg-hover: var(--input-bg-hover);
+}
+
+.selection {
+  position: relative;
+  width: 12rem;
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.selection:hover:not(.selection.active) {
+  border: var(--option-hover);
+}
+
+.selection.active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.selection-trigger {
+  display: flex;
+  align-items: center;
+  color: var(--option-text);
+  font-size: var(--font-size-400);
+  padding: var(--space-2) var(--space-3);
+  transition: all 0.3s ease;
+}
+
+.selection-arrow {
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--option-text);
+  border-right: 2px solid var(--option-text);
+  margin-left: 1rem;
+  transform: rotate(45deg);
+  transition: transform 0.3s;
+}
+
+.selection-options {
+  position: absolute;
+  display: none;
+  top: calc(100% + 3px);
+  left: -1px;
+  width: 12rem;
+  background: var(--option-bg);
+  border: var(--option-border);
+  color: var(--option-text);
+  font-size: var(--font-size-300);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.selection.active .selection-options {
+  display: flex;
+}
+
+.selection-item {
+  padding: var(--space-2) var(--space-3);
+}
+
+.selection-item:hover {
+  background: var(--option-bg-hover);
+}
